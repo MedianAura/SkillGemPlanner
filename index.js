@@ -18,7 +18,6 @@ function createWindow() {
     // Open the DevTools.
     win.webContents.openDevTools();
 
-    // Emitted when the window is closed.
     win.on('closed', function () {
         win = null
     })
@@ -26,7 +25,6 @@ function createWindow() {
 
 app.on('ready', createWindow);
 
-// Quit when all windows are closed.
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') {
         app.quit()
