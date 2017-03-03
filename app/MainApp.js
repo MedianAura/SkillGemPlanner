@@ -5,11 +5,8 @@ var path = require("path");
 nunjucks.configure(path.resolve(__dirname, "./app/View/").replace(/\\/gmi, "/") + "/");
 
 var MainApp = Backbone.View.extend({
-    el: "body",
-    oController: null,
-    events: {
-        "click .changeView": "changeView"
-    },
+    el: "#MainContent",
+    sTemplate: "Main.twig",
 
     initialize: function () {
 

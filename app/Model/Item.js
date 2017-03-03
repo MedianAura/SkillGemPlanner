@@ -1,5 +1,6 @@
 var Backbone = require("backbone");
+require('backbone-relational');
 
-var Item = Backbone.Model.extend({});
+var Item = Backbone.RelationalModel.extend({});
 
 module.exports = Item;

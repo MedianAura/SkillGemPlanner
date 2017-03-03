@@ -16,6 +16,10 @@
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
+		
+		<script type="text/javascript" src="./node_modules/underscore/underscore-min.js"></script>
+		<script type="text/javascript" src="./node_modules/backbone/backbone-min.js"></script>
+		<script type="text/javascript" src="./node_modules/backbone-relational/backbone-relational.js"></script>
 	</head>
 	<body>
 		<div id="MainContent"></div>
@@ -24,10 +28,12 @@
 		
 		<script type="text/javascript">
             var $ = jQuery = require("jquery");
-
+            var MainApp = require("./app/MainApp");
+            var oMainApp = null;
+            
             $(function () {
                 try {
-
+                    oMainApp = new MainApp();
                 } catch (e) {
                     console.error(e);
                 }
