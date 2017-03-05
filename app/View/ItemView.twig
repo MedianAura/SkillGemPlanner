@@ -1,0 +1,52 @@
+<div class="col-sm-4">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">{{ model.get("slot") }}</h3>
+		</div>
+		
+		<div class="panel-body">
+			<div class="ItemGemsList">
+				{% for oGem in model.get("gems").models %}
+					{% if not oGem.get("edit") %}
+						<button data-ndx="{{ loop.index0 }}" type="button"
+						        class="btn btn-move btn-block {{ oGem.getButton() }}">
+							{{ oGem.get("name") }}
+							<span class="glyphicon glyphicon-remove pull-right btnRemoveGem" style="font-size: 14pt;"
+							      aria-hidden="true"></span>
+							<span class="glyphicon glyphicon-edit pull-right btnEditGem"
+							      style="font-size: 14pt; margin-right: 10px" aria-hidden="true"></span>
+						</button>
+					{% else %}
+						<div data-ndx="{{ loop.index0 }}" class="row" style="margin-top: 5px;">
+							<div class="col-sm-5">
+								<div class="form-group">
+									<select class="form-control" name="gemColor">
+										<option value="blank">Blank</option>
+										<option value="blue">Blue</option>
+										<option value="red">Red</option>
+										<option value="green">Green</option>
+									</select>
+								</div>
+							</div>
+							
+							<div class="col-sm-5">
+								<div class="form-group">
+									<input type="text" class="form-control" name="gemName" placeholder="Name">
+								</div>
+							</div>
+							
+							<div class="col-sm-2">
+								<button type="button" class="btn btn-default btnSaveGem pull-right">Save</button>
+							</div>
+						</div>
+					{% endif %}
+				{% endfor %}
+			</div>
+			
+			<button type="button" class="btn btn-block btn-default btnAddGem" style="margin-top: 5px;">
+				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+				Add Gems
+			</button>
+		</div>
+	</div>
+</div>

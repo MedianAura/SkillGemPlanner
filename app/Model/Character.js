@@ -11,11 +11,14 @@ var Character = Backbone.RelationalModel.extend({
         relatedModel: Item,
         collectionType: ItemCollection,
         reverseRelation: {
-            key: 'oChar',
+            key: 'oChar'
         }
     }],
     defaults: {
         "items": null
+    },
+
+    initialize: function () {
     }
 });
 
