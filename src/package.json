@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "electron-zip-packager ./ --arch=all --ignore=\".git(ignore|modules)|.idea\" --asar --out=../ --overwrite",
     "run": "electron ."
   },
   "author": "MedianAura",
