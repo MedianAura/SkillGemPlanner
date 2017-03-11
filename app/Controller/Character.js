@@ -1,42 +1,85 @@
 var Backbone = require("backbone");
 var nunjucks = require("nunjucks");
+var lodash = require("lodash");
+
+require("bootstrap");
 
 var CharacterModel = require("../Model/Character");
 var ItemController = require("../Controller/ItemController");
-var lodash = require("lodash");
+var ItemModel = require("../Model/Item");
+var DialogEditGems = require("./DialogEditGems");
 
 var CharacterController = Backbone.View.extend({
     el: "#CharacterContent",
     sTemplate: "CharacterView.twig",
     oItems: {},
+    dialogId: null,
     events: {
-        "click .btnAddItem": "addItem",
-        "submit form": "addItem"
+        "click #ItemList .ItemView": "openDialog",
+        "click .btnAddItem": "addItemEvent",
+        "submit form": "addItemEvent"
     },
 
-    initialize: function () {
-        this.model = new CharacterModel();
+    initialize: function (options) {
+        if (!lodash.isUndefined(options.model)) {
+            this.model = new CharacterModel(options.model);
+        } else {
+            this.model = new CharacterModel();
+        }
+
+        this.render();
+    },
+
+    setModel: function (oChar) {
+        lodash.each(this.oItems, function (oItem) {
+            oItem.remove();
+        });
+        this.oItems = {};
+        this.model = new CharacterModel(oChar);
         this.render();
     },
 
     render: function () {
-        this.$el.html(nunjucks.render(this.sTemplate, {model: this.model.toJSON()}));
+        var self = this;
+        this.$el.html(nunjucks.render(this.sTemplate));
+        if (this.model.get("items").length > 0) {
+            lodash.each(this.model.get("items").models, function (value) {
+                self.addItem(value.get("slot"), value)
+            });
+        }
     },
 
-    addItem: function (e) {
-        e.preventDefault();
-        var slot = this.$el.find("[name=itemSlot]").val();
+    addItem: function (slot, model) {
         var slot_id = "ItemSlot_" + slot;
 
         if (!lodash.isEmpty(slot) && lodash.isUndefined(this.oItems[slot_id])) {
-            this.oItems[slot_id] = new ItemController({id: slot_id, slot: slot, oParent: this});
+            this.oItems[slot_id] = new ItemController({id: slot_id, model: model, oParent: this});
             this.$el.find("#ItemList").append(this.oItems[slot_id].$el);
         } else {
             alert("Un nom doit être donnée pour l'item.");
         }
+    },
 
+    addItemEvent: function (e) {
+        e.preventDefault();
+        var slot = this.$el.find("[name=itemSlot]").val();
+
+        console.log("Yo");
+
+        var model = new ItemModel({slot: slot});
+        this.model.get("items").add(model);
+        this.addItem(slot, model);
+
+        this.$el.find("[name=itemSlot]").val("");
         return false;
-    }
+    },
+
+    openDialog: function (e) {
+        e.preventDefault();
+        var id = $(e.target).closest(".ItemView").prop("id");
+        DialogEditGems.show(this.oItems[id]);
+        return false;
+    },
 });
 
 module.exports = CharacterController;

@@ -7,19 +7,17 @@ var lodash = require("lodash");
 
 var ItemController = Backbone.View.extend({
     sTemplate: "ItemView.twig",
+    className: "ItemView",
     oParent: null,
     model: null,
-    sort: null,
     events: {
-        "click .btnAddGem": "addGem",
-        "click .btnSaveGem": "saveGem",
         "click .btnRemoveGem": "removeGem",
-        "click .btnEditGem": "editGem"
+        "click .btn-move": "changeStatus"
     },
 
     initialize: function (options) {
         this.oParent = options.oParent;
-        this.model = new ItemModel({slot: options.slot});
+
         this.model.get("gems").on("update", this.render, this);
         this.model.get("gems").on("change", this.render, this);
 
@@ -32,45 +30,14 @@ var ItemController = Backbone.View.extend({
         if (this.model.get("gems").length == 6) {
             this.$el.find(".btnAddGem").hide();
         }
-
-        this.updateSort();
     },
 
-    updateSort: function () {
-        var Sortable = require("sortablejs");
-
-        this.sort = Sortable.create(this.$el.find(".ItemGemsList").get(0), {
-            group: "gems",
-            handle: ".btn-move",
-            filter: ".btnRemoveGem, .btnEditGem"
-        });
-    },
-
-    addGem: function (e) {
-        e.preventDefault();
+    addGem: function (oGem) {
         if (this.model.get("gems").length < 6) {
-            this.model.get("gems").add(new GemModel({edit: true}));
+            this.model.get("gems").add(new GemModel(oGem));
+        } else {
+            alert("Can't have more than 6 Gems in an Item.");
         }
-        return false;
-    },
-
-    saveGem: function (e) {
-        e.preventDefault();
-
-        var $sel = $(e.target).closest(".row");
-        var id = $sel.data("ndx");
-
-        var gems = this.model.get("gems").at(id);
-        if (!lodash.isUndefined(gems)) {
-            var color = $sel.find("[name=gemColor]").val();
-            var name = $sel.find("[name=gemName]").val();
-
-            gems.set("type", color);
-            gems.set("name", name);
-            gems.set("edit", false);
-        }
-
-        return false;
     },
 
     removeGem: function (e) {
@@ -81,20 +48,23 @@ var ItemController = Backbone.View.extend({
         var gems = this.model.get("gems").at(id);
         if (!lodash.isUndefined(gems)) {
             this.model.get("gems").remove(gems);
-            this.$el.find(".btnAddGem").show();
         }
 
         return false;
     },
 
-    editGem: function (e) {
+    changeStatus: function (e) {
         e.preventDefault();
 
         var $sel = $(e.target).closest(".btn-move");
         var id = $sel.data("ndx");
         var gems = this.model.get("gems").at(id);
         if (!lodash.isUndefined(gems)) {
-            gems.set("edit", true);
+            if (gems.get("enable")) {
+                gems.set("enable", false);
+            } else {
+                gems.set("enable", true);
+            }
         }
 
         return false;

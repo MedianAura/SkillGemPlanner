@@ -3,13 +3,18 @@ var Backbone = require("backbone");
 var Gems = Backbone.RelationalModel.extend({
     defaults: {
         type: "blank",
+        img: "",
         name: "",
         btnClass: "btn-default",
         enable: true,
-        edit: false
     },
 
     getButton: function () {
+        if (!this.get("enable")) {
+            this.set("btnClass", "btn-inverted");
+            return this.get("btnClass");
+        }
+
         switch (this.get("type").toLowerCase()) {
             case "red":
                 this.set("btnClass", "btn-danger");

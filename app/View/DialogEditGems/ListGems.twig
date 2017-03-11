@@ -1,0 +1,16 @@
+{% for oGem in gems %}
+	{% if oGem.type == "red" %}
+		{% set className = "list-group-item-danger" %}
+	{% elseif oGem.type == "blue" %}
+		{% set className = "list-group-item-info" %}
+	{% elseif oGem.type == "green" %}
+		{% set className = "list-group-item-success" %}
+	{% else %}
+		{% set className = "" %}
+	{% endif %}
+	
+	<button class="list-group-item {{ className }}" data-gem="{{ oGem | dump }}">
+		<img src="{{ oGem.image }}" width="30"/>
+		<span>{{ oGem.name }}</span>
+	</button>
+{% endfor %}

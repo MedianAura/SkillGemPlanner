@@ -1,0 +1,20 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">{{ model.get("slot") }}</h3>
+	</div>
+	
+	<div class="panel-body">
+		<div class="ItemGemsList">
+			{% for oGem in model.get("gems").models %}
+				<button data-ndx="{{ loop.index0 }}" type="button"
+				        class="btn btn-move btn-block {{ oGem.getButton() }}">
+					<img src="{{ oGem.get("image") }}" width="30"/>
+					{{ oGem.get("name") }}
+					<span class="glyphicon glyphicon-remove pull-right btnRemoveGem"
+					      style="font-size: 14pt; line-height: 30px;"
+					      aria-hidden="true"></span>
+				</button>
+			{% endfor %}
+		</div>
+	</div>
+</div>
