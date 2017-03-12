@@ -31,10 +31,6 @@ var CharacterController = Backbone.View.extend({
     },
 
     setModel: function (oChar) {
-        lodash.each(this.oItems, function (oItem) {
-            oItem.remove();
-        });
-        this.oItems = {};
         this.model = new CharacterModel(oChar);
         this.render();
     },
@@ -42,6 +38,13 @@ var CharacterController = Backbone.View.extend({
     render: function () {
         var self = this;
         this.$el.html(nunjucks.render(this.sTemplate));
+
+        lodash.each(this.oItems, function (oItem) {
+            oItem.remove();
+            oItem = null;
+        });
+        this.oItems = {};
+
         if (this.model.get("items").length > 0) {
             lodash.each(this.model.get("items").models, function (value) {
                 self.addItem(value.get("slot"), value)
@@ -60,11 +63,14 @@ var CharacterController = Backbone.View.extend({
         }
     },
 
+    removeItem: function (oItem) {
+        this.model.get("items").remove(oItem);
+        this.render();
+    },
+
     addItemEvent: function (e) {
         e.preventDefault();
         var slot = this.$el.find("[name=itemSlot]").val();
-
-        console.log("Yo");
 
         var model = new ItemModel({slot: slot});
         this.model.get("items").add(model);

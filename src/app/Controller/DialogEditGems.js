@@ -18,7 +18,8 @@ var DialogEditGems = Backbone.View.extend({
     oItem: null,
     events: {
         "click #AppListGems button": "addGem",
-        "hide.bs.modal #ModalEditItem": "closeDialog",
+        "hide.bs.modal .modal": "closeDialog",
+        "shown.bs.modal .modal": "setFocus",
         "click .btnRemoveGem": "removeGem",
         "keyup .formNewGemName": "searchGemsEvent"
     },
@@ -52,8 +53,13 @@ var DialogEditGems = Backbone.View.extend({
         this.$el.find(".modal").modal('show');
     },
 
+    setFocus: function () {
+        this.$el.find(".formNewGemName").val("");
+        this.$el.find(".formNewGemName").focus();
+    },
+
     closeDialog: function (e) {
-        this.undelegateEvents();
+        // this.undelegateEvents();
         this.oItem = null;
     },
 
@@ -95,6 +101,7 @@ var DialogEditGems = Backbone.View.extend({
         this.oItem.addGem(data);
 
         $btn.blur();
+        this.$el.find(".formNewGemName").focus();
         return false;
     },
 
@@ -108,6 +115,7 @@ var DialogEditGems = Backbone.View.extend({
             this.oItem.model.get("gems").remove(gems);
         }
 
+        this.$el.find(".formNewGemName").focus();
         return false;
     }
 });

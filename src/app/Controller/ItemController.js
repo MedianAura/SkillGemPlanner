@@ -12,6 +12,7 @@ var ItemController = Backbone.View.extend({
     model: null,
     events: {
         "click .btnRemoveGem": "removeGem",
+        "click .btnRemoveItem": "removeItem",
         "click .btn-move": "changeStatus"
     },
 
@@ -31,6 +32,13 @@ var ItemController = Backbone.View.extend({
             this.$el.find(".btnAddGem").hide();
         }
     },
+
+    removeItem: function (e) {
+        e.preventDefault();
+        this.oParent.removeItem(this.model);
+        return false;
+    },
+
 
     addGem: function (oGem) {
         if (this.model.get("gems").length < 6) {

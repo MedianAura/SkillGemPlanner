@@ -65,6 +65,7 @@ var MainApp = Backbone.View.extend({
         var sFilePath = dialog.showSaveDialog({defaultPath: this.sDefaultPath, filters: this.aFilters});
         if (!lodash.isUndefined(sFilePath)) {
             fse.writeJsonSync(sFilePath, this.oChar.model.toJSON(), {encoding: "utf8"});
+            this.sFilePath = sFilePath;
         }
     },
 

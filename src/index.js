@@ -7,7 +7,7 @@ const url = require('url');
 let win;
 
 function createWindow() {
-    win = new BrowserWindow({width: 800, height: 600});
+    win = new BrowserWindow({width: 1150, height: 700});
 
     win.loadURL(url.format({
         pathname: path.join(__dirname, 'index.html'),
@@ -16,7 +16,7 @@ function createWindow() {
     }));
 
     // Open the DevTools.
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 
     win.on('closed', function () {
         win = null
