@@ -1,0 +1,17 @@
+.sortable-ghost {
+    background-color: aqua;
+}
+
+#CharacterPanel {
+    width: 300px;
+    height: 500px;
+    background-color: aqua;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.app-subfolder {
+    border: 1px solid red;
+    border-radius: 10px;
+}

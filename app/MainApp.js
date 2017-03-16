@@ -7,6 +7,7 @@ const sprintf = require("sprintf").sprintf;
 
 nunjucks.configure(path.resolve(__dirname, "./View/").replace(/\\/gmi, "/") + "/");
 
+var CharacterSelectController = require("./Controller/CharacterSelectController");
 var CharacterController = require("./Controller/Character");
 var lodash = require("lodash");
 
@@ -42,6 +43,8 @@ var MainApp = Backbone.View.extend({
         var oChar = {};
         this.render();
         this.oChar = new CharacterController({model: oChar});
+
+        new CharacterSelectController();
     },
 
     render: function () {
